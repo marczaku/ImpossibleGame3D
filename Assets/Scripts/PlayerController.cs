@@ -26,11 +26,17 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetButtonDown("Jump"))
+        if(Input.GetButtonDown("Jump") && IsTouchingGround())
         {
             Rigidbody rigidBody = gameObject.GetComponent<Rigidbody>();
             rigidBody.AddForce(0, 300, 0);
         }
         transform.Translate(0, 0, speed);
+    }
+
+    bool IsTouchingGround()
+    {
+        int layerMask = LayerMask.GetMask("Ground");
+        return Physics.CheckBox(transform.position, transform.lossyScale / 1.99f, transform.rotation, layerMask);
     }
 }
