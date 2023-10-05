@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,19 +13,24 @@ public class PlayerController : MonoBehaviour
     {
         
     }
-    
+
+    private void FixedUpdate()
+    {
+        Rigidbody rigidBody = gameObject.GetComponent<Rigidbody>();
+        if (rigidBody.velocity.y < -.1f)
+        {
+            rigidBody.AddForce(0, -1, 0);
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {
-        bool isKeyWasJustPressed = Input.GetKeyDown(KeyCode.Escape);
-        if (...)
+        if(Input.GetButtonDown("Jump"))
         {
-            
+            Rigidbody rigidBody = gameObject.GetComponent<Rigidbody>();
+            rigidBody.AddForce(0, 300, 0);
         }
-
-        Rigidbody rb = GetComponent<Rigidbody>();
-        rb.AddForce(0, 0, 0);
-        
         transform.Translate(0, 0, speed);
     }
 }
