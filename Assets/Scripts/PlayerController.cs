@@ -30,8 +30,9 @@ public class PlayerController : MonoBehaviour
         {
             Rigidbody rigidBody = gameObject.GetComponent<Rigidbody>();
             rigidBody.AddForce(0, 300, 0);
+            rigidBody.angularVelocity = new Vector3(2, 0, 0);
         }
-        transform.Translate(0, 0, speed);
+        transform.Translate(0, 0, speed, Space.World);
     }
 
     bool IsTouchingGround()
