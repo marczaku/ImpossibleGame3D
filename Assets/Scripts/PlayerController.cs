@@ -7,32 +7,38 @@ public class PlayerController : MonoBehaviour
 {
     
     public float speed = 4f; // Field
+    public float jumpForce = 300;
+    public float jumpSpin = 2;
+    public float fallGravity = -1f;
     
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
+    private const float fallTolerance = -.1f;
+    
     private void FixedUpdate()
     {
         Rigidbody rigidBody = gameObject.GetComponent<Rigidbody>();
-        if (rigidBody.velocity.y < -.1f)
+        Vector3 velocity = rigidBody.velocity;
+        if (velocity.y < fallTolerance)
         {
-            rigidBody.AddForce(0, -1, 0);
+            rigidBody.AddForce(0, fallGravity, 0);
         }
+
+        velocity.z = speed;
+        rigidBody.velocity = velocity;
     }
 
-    // Update is called once per frame
     void Update()
     {
         if(Input.GetButtonDown("Jump") && IsTouchingGround())
         {
-            Rigidbody rigidBody = gameObject.GetComponent<Rigidbody>();
-            rigidBody.AddForce(0, 300, 0);
-            rigidBody.angularVelocity = new Vector3(2, 0, 0);
+            Jump();
         }
-        transform.Translate(0, 0, speed, Space.World);
+    }
+
+    void Jump()
+    {
+        Rigidbody rigidBody = gameObject.GetComponent<Rigidbody>();
+        rigidBody.AddForce(0, jumpForce, 0);
+        rigidBody.angularVelocity = new Vector3(x: jumpSpin, 0, 0);
     }
 
     bool IsTouchingGround()
