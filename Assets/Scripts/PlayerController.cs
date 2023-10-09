@@ -28,7 +28,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetButtonDown("Jump") && IsTouchingGround())
+        if(Input.GetButton("Jump") && IsTouchingGround())
         {
             Jump();
         }
@@ -37,7 +37,9 @@ public class PlayerController : MonoBehaviour
     void Jump()
     {
         Rigidbody rigidBody = gameObject.GetComponent<Rigidbody>();
-        rigidBody.AddForce(0, jumpForce, 0);
+        Vector3 velocity = rigidBody.velocity;
+        velocity.y = jumpForce;
+        rigidBody.velocity = velocity;
         rigidBody.angularVelocity = new Vector3(x: jumpSpin, 0, 0);
     }
 
